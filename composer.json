@@ -1,0 +1,23 @@
+{
+  "name"    : "timiki/rpc-common",
+  "type"    : "library",
+  "keywords": [
+    "rpc",
+    "json-rpc"
+  ],
+  "license" : "MIT",
+  "authors" : [
+    {
+      "name" : "Netesin N",
+      "email": "nikita@netesin.ru"
+    }
+  ],
+  "require" : {
+    "php": ">=5.5 || >=7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Timiki\\RpcCommon\\": "src/"
+    }
+  }
+}
