@@ -45,10 +45,10 @@ class JsonRequest extends JsonHttp implements JsonSerializable
      * Create new JsonRequest.
      *
      * @param string $method
-     * @param array  $params
+     * @param mixed  $params
      * @param string $id
      */
-    public function __construct($method, array $params = [], $id = null)
+    public function __construct($method, $params = null, $id = null)
     {
         $this->method = $method;
         $this->params = $params;
