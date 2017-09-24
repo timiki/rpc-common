@@ -161,7 +161,7 @@ class JsonRequest extends JsonHttp implements JsonSerializable
     /**
      * Convert JsonRequest to json string.
      *
-     * @return string
+     * @return array
      */
     public function toArray()
     {
@@ -175,7 +175,7 @@ class JsonRequest extends JsonHttp implements JsonSerializable
         $json['method'] = $this->method;
 
         if ($this->params) {
-            $json['param'] = $this->params;
+            $json['params'] = $this->params;
         }
 
         if ($this->id) {
