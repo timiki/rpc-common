@@ -84,9 +84,9 @@ class JsonResponse extends JsonHttp implements JsonSerializable
      */
     public function setRequest(JsonRequest $request)
     {
-        $this->id      = $request->getId();
+        $this->id = $request->getId();
         $this->jsonrpc = $request->getJsonrpc();
-        $this->method  = $request->getMethod();
+        $this->method = $request->getMethod();
         $this->request = $request;
 
         if (!$request->getResponse()) {
@@ -228,13 +228,13 @@ class JsonResponse extends JsonHttp implements JsonSerializable
      */
     public function getArrayResponse()
     {
-        $json            = [];
+        $json = [];
         $json['jsonrpc'] = '2.0';
 
         if ($this->errorCode) {
 
-            $json['error']            = [];
-            $json['error']['code']    = $this->errorCode;
+            $json['error'] = [];
+            $json['error']['code'] = $this->errorCode;
             $json['error']['message'] = $this->errorMessage;
 
             if (!empty($this->errorData)) {
@@ -289,13 +289,13 @@ class JsonResponse extends JsonHttp implements JsonSerializable
      */
     public function toArray()
     {
-        $json            = [];
+        $json = [];
         $json['jsonrpc'] = '2.0';
 
         if ($this->errorCode) {
 
-            $json['error']            = [];
-            $json['error']['code']    = $this->errorCode;
+            $json['error'] = [];
+            $json['error']['code'] = $this->errorCode;
             $json['error']['message'] = $this->errorMessage;
 
             if (!empty($this->errorData)) {
@@ -319,5 +319,27 @@ class JsonResponse extends JsonHttp implements JsonSerializable
     public function __toString()
     {
         return json_encode($this->toArray());
+    }
+
+    /**
+     * Get result (error) value.
+     *
+     * @param $name
+     * @param null $default
+     * @return null|mixed
+     */
+    public function get($name, $default = null)
+    {
+        if ($this->isError()) {
+            if (array_key_exists($name, (array)$this->getErrorData())) {
+                return $this->getErrorData()[$name];
+            }
+        } else {
+            if (array_key_exists($name, (array)$this->getResult())) {
+                return $this->getResult()[$name];
+            }
+        }
+
+        return $default;
     }
 }
