@@ -257,7 +257,7 @@ class JsonResponse extends JsonHttp implements JsonSerializable
      */
     public function isError()
     {
-        return !empty($this->errorCode);
+        return $this->errorCode !== null;
     }
 
     /**
