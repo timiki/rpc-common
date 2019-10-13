@@ -16,14 +16,14 @@ class JsonResponse extends JsonHttp implements JsonSerializable
     /**
      * Id.
      *
-     * @var integer|null
+     * @var null|int
      */
-    protected $id = null;
+    protected $id;
 
     /**
      * Method name.
      *
-     * @var integer|null
+     * @var string
      */
     protected $method;
 
@@ -44,21 +44,21 @@ class JsonResponse extends JsonHttp implements JsonSerializable
     /**
      * Error data.
      *
-     * @var mixed|null
+     * @var null|mixed
      */
     protected $errorData;
 
     /**
      * Result.
      *
-     * @var mixed|null
+     * @var null|mixed
      */
     protected $result;
 
     /**
      * Request.
      *
-     * @var JsonRequest|null
+     * @var null|JsonRequest
      */
     protected $request;
 
@@ -79,7 +79,8 @@ class JsonResponse extends JsonHttp implements JsonSerializable
     /**
      * Set request.
      *
-     * @param JsonRequest|null $request
+     * @param JsonRequest $request
+     *
      * @return $this
      */
     public function setRequest(JsonRequest $request)
@@ -99,7 +100,7 @@ class JsonResponse extends JsonHttp implements JsonSerializable
     /**
      * Get request.
      *
-     * @return JsonRequest|null
+     * @return null|JsonRequest
      */
     public function getRequest()
     {
@@ -109,7 +110,7 @@ class JsonResponse extends JsonHttp implements JsonSerializable
     /**
      * Get id.
      *
-     * @return int|null
+     * @return null|int
      */
     public function getId()
     {
@@ -119,7 +120,8 @@ class JsonResponse extends JsonHttp implements JsonSerializable
     /**
      * Set id.
      *
-     * @param string|integer|null $id
+     * @param null|int|string $id
+     *
      * @return $this
      */
     public function setId($id)
@@ -143,6 +145,7 @@ class JsonResponse extends JsonHttp implements JsonSerializable
      * Set error code.
      *
      * @param string $errorCode
+     *
      * @return $this
      */
     public function setErrorCode($errorCode)
@@ -166,6 +169,7 @@ class JsonResponse extends JsonHttp implements JsonSerializable
      * Set error message.
      *
      * @param string $errorMessage
+     *
      * @return $this
      */
     public function setErrorMessage($errorMessage)
@@ -178,7 +182,7 @@ class JsonResponse extends JsonHttp implements JsonSerializable
     /**
      * Get error data.
      *
-     * @return mixed|null
+     * @return null|mixed
      */
     public function getErrorData()
     {
@@ -188,7 +192,8 @@ class JsonResponse extends JsonHttp implements JsonSerializable
     /**
      * Set error data.
      *
-     * @param mixed|null $errorData
+     * @param null|mixed $errorData
+     *
      * @return $this
      */
     public function setErrorData($errorData)
@@ -201,7 +206,7 @@ class JsonResponse extends JsonHttp implements JsonSerializable
     /**
      * Get result.
      *
-     * @return mixed|null
+     * @return null|mixed
      */
     public function getResult()
     {
@@ -211,7 +216,8 @@ class JsonResponse extends JsonHttp implements JsonSerializable
     /**
      * Set result.
      *
-     * @param mixed|null $result
+     * @param null|mixed $result
+     *
      * @return $this
      */
     public function setResult($result)
@@ -232,7 +238,6 @@ class JsonResponse extends JsonHttp implements JsonSerializable
         $json['jsonrpc'] = '2.0';
 
         if ($this->errorCode) {
-
             $json['error'] = [];
             $json['error']['code'] = $this->errorCode;
             $json['error']['message'] = $this->errorMessage;
@@ -240,7 +245,6 @@ class JsonResponse extends JsonHttp implements JsonSerializable
             if (!empty($this->errorData)) {
                 $json['error']['data'] = $this->errorData;
             }
-
         } else {
             $json['result'] = $this->result;
         }
@@ -253,17 +257,17 @@ class JsonResponse extends JsonHttp implements JsonSerializable
     /**
      * Is response error.
      *
-     * @return boolean
+     * @return bool
      */
     public function isError()
     {
-        return $this->errorCode !== null;
+        return null !== $this->errorCode;
     }
 
     /**
      * Is response from proxy.
      *
-     * @return boolean
+     * @return bool
      */
     public function isProxy()
     {
@@ -271,13 +275,16 @@ class JsonResponse extends JsonHttp implements JsonSerializable
     }
 
     /**
-     * Specify data which should be serialized to JSON
-     * @link  http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * Specify data which should be serialized to JSON.
+     *
+     * @see  http://php.net/manual/en/jsonserializable.jsonserialize.php
+     *
      * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
+     *               which is a value of any type other than a resource
+     *
      * @since 5.4.0
      */
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         return $this->toArray();
     }
@@ -293,7 +300,6 @@ class JsonResponse extends JsonHttp implements JsonSerializable
         $json['jsonrpc'] = '2.0';
 
         if ($this->errorCode) {
-
             $json['error'] = [];
             $json['error']['code'] = $this->errorCode;
             $json['error']['message'] = $this->errorMessage;
@@ -301,7 +307,6 @@ class JsonResponse extends JsonHttp implements JsonSerializable
             if (!empty($this->errorData)) {
                 $json['error']['data'] = $this->errorData;
             }
-
         } else {
             $json['result'] = $this->result;
         }
@@ -318,24 +323,25 @@ class JsonResponse extends JsonHttp implements JsonSerializable
      */
     public function __toString()
     {
-        return json_encode($this->toArray());
+        return \json_encode($this->toArray());
     }
 
     /**
      * Get result (error) value.
      *
-     * @param $name
-     * @param null $default
+     * @param string $name
+     * @param mixed  $default
+     *
      * @return null|mixed
      */
     public function get($name, $default = null)
     {
         if ($this->isError()) {
-            if (array_key_exists($name, (array)$this->getErrorData())) {
+            if (\array_key_exists($name, (array) $this->getErrorData())) {
                 return $this->getErrorData()[$name];
             }
         } else {
-            if (array_key_exists($name, (array)$this->getResult())) {
+            if (\array_key_exists($name, (array) $this->getResult())) {
                 return $this->getResult()[$name];
             }
         }

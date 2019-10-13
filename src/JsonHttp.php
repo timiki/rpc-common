@@ -13,7 +13,6 @@ abstract class JsonHttp
 
     /**
      * Create new JsonHttp.
-     *
      */
     public function __construct()
     {

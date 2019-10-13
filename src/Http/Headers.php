@@ -35,13 +35,13 @@ class Headers implements \IteratorAggregate, \Countable
      * @param mixed  $default The default value
      * @param bool   $first   Whether to return the first value or all header values
      *
-     * @return string|array The first header value if $first is true, an array of values otherwise
+     * @return array|string The first header value if $first is true, an array of values otherwise
      */
     public function get($key, $default = null, $first = true)
     {
-        $key = str_replace('_', '-', strtolower($key));
+        $key = \str_replace('_', '-', \mb_strtolower($key));
 
-        if (!array_key_exists($key, $this->headers)) {
+        if (!\array_key_exists($key, $this->headers)) {
             if (null === $default) {
                 return $first ? null : [];
             }
@@ -50,7 +50,7 @@ class Headers implements \IteratorAggregate, \Countable
         }
 
         if ($first) {
-            return count($this->headers[$key]) ? $this->headers[$key][0] : $default;
+            return \count($this->headers[$key]) ? $this->headers[$key][0] : $default;
         }
 
         return $this->headers[$key];
@@ -60,19 +60,19 @@ class Headers implements \IteratorAggregate, \Countable
      * Sets a header by name.
      *
      * @param string       $key     The key
-     * @param string|array $values  The value or an array of values
+     * @param array|string $values  The value or an array of values
      * @param bool         $replace Whether to replace the actual value or not (true by default)
      */
     public function set($key, $values, $replace = true)
     {
-        $key = str_replace('_', '-', strtolower($key));
+        $key = \str_replace('_', '-', \mb_strtolower($key));
 
-        $values = array_values((array)$values);
+        $values = \array_values((array) $values);
 
         if (true === $replace || !isset($this->headers[$key])) {
             $this->headers[$key] = $values;
         } else {
-            $this->headers[$key] = array_merge($this->headers[$key], $values);
+            $this->headers[$key] = \array_merge($this->headers[$key], $values);
         }
     }
 
@@ -97,7 +97,7 @@ class Headers implements \IteratorAggregate, \Countable
      */
     public function has($key)
     {
-        return array_key_exists(str_replace('_', '-', strtolower($key)), $this->headers);
+        return \array_key_exists(\str_replace('_', '-', \mb_strtolower($key)), $this->headers);
     }
 
     /**
@@ -107,7 +107,7 @@ class Headers implements \IteratorAggregate, \Countable
      */
     public function remove($key)
     {
-        $key = str_replace('_', '-', strtolower($key));
+        $key = \str_replace('_', '-', \mb_strtolower($key));
 
         unset($this->headers[$key]);
     }
@@ -129,6 +129,6 @@ class Headers implements \IteratorAggregate, \Countable
      */
     public function count()
     {
-        return count($this->headers);
+        return \count($this->headers);
     }
 }

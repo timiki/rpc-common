@@ -16,9 +16,9 @@ class JsonRequest extends JsonHttp implements JsonSerializable
     /**
      * Id.
      *
-     * @var string|null
+     * @var mixed
      */
-    protected $id = null;
+    protected $id;
 
     /**
      * Method.
@@ -52,7 +52,7 @@ class JsonRequest extends JsonHttp implements JsonSerializable
     {
         $this->method = $method;
         $this->params = $params;
-        $this->id     = $id;
+        $this->id = $id;
 
         parent::__construct();
     }
@@ -60,7 +60,7 @@ class JsonRequest extends JsonHttp implements JsonSerializable
     /**
      * Get jsonrpc version.
      *
-     * @return string|null
+     * @return null|string
      */
     public function getJsonrpc()
     {
@@ -70,7 +70,7 @@ class JsonRequest extends JsonHttp implements JsonSerializable
     /**
      * Get id.
      *
-     * @return integer|null
+     * @return mixed
      */
     public function getId()
     {
@@ -111,6 +111,7 @@ class JsonRequest extends JsonHttp implements JsonSerializable
      * Set response.
      *
      * @param JsonResponse $response
+     *
      * @return $this
      */
     public function setResponse(JsonResponse $response)
@@ -127,7 +128,7 @@ class JsonRequest extends JsonHttp implements JsonSerializable
     /**
      * Is valid.
      *
-     * @return boolean
+     * @return bool
      */
     public function isValid()
     {
@@ -135,11 +136,11 @@ class JsonRequest extends JsonHttp implements JsonSerializable
             return false;
         }
 
-        if (empty($this->method) || !is_string($this->method)) {
+        if (empty($this->method) || !\is_string($this->method)) {
             return false;
         }
 
-        if (!empty($this->params) && !is_array($this->params)) {
+        if (!empty($this->params) && !\is_array($this->params)) {
             return false;
         }
 
@@ -147,13 +148,16 @@ class JsonRequest extends JsonHttp implements JsonSerializable
     }
 
     /**
-     * Specify data which should be serialized to JSON
-     * @link  http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * Specify data which should be serialized to JSON.
+     *
+     * @see  http://php.net/manual/en/jsonserializable.jsonserialize.php
+     *
      * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
+     *               which is a value of any type other than a resource
+     *
      * @since 5.4.0
      */
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         return $this->toArray();
     }
@@ -165,7 +169,7 @@ class JsonRequest extends JsonHttp implements JsonSerializable
      */
     public function toArray()
     {
-        $json            = [];
+        $json = [];
         $json['jsonrpc'] = $this->jsonrpc;
 
         if ($this->method) {
@@ -192,7 +196,7 @@ class JsonRequest extends JsonHttp implements JsonSerializable
      */
     public function __toString()
     {
-        return json_encode($this);
+        return \json_encode($this);
     }
 
     /**
@@ -202,6 +206,6 @@ class JsonRequest extends JsonHttp implements JsonSerializable
      */
     public function getHash()
     {
-        return md5($this->method.json_encode($this->params));
+        return \md5($this->method.\json_encode($this->params));
     }
 }
