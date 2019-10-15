@@ -311,7 +311,7 @@ class JsonResponse extends JsonHttp implements JsonSerializable
             $json['result'] = $this->result;
         }
 
-        $json['id'] = !empty($this->id) ? $this->id : null;
+        $json['id'] = '' !== $this->id ? $this->id : null;
 
         return $json;
     }
