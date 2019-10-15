@@ -16,7 +16,7 @@ class JsonResponse extends JsonHttp implements JsonSerializable
     /**
      * Id.
      *
-     * @var null|int
+     * @var mixed
      */
     protected $id;
 
