@@ -98,6 +98,42 @@ class JsonRequest extends JsonHttp implements JsonSerializable
     }
 
     /**
+     * Delete param by name.
+     *
+     * @param string $name
+     */
+    public function delete($name)
+    {
+        if (isset($this->params[$name])) {
+            unset($this->params[$name]);
+        }
+    }
+
+    /**
+     * Set param by name.
+     *
+     * @param string $name
+     * @param mixed  $value
+     */
+    public function set($name, $value)
+    {
+        $this->params[$name] = $value;
+    }
+
+    /**
+     * Get param by name.
+     *
+     * @param string     $name
+     * @param null|mixed $default
+     *
+     * @return mixed
+     */
+    public function get($name, $default = null)
+    {
+        return isset($this->params[$name]) ? $this->params[$name] : $default;
+    }
+
+    /**
      * Get response.
      *
      * @return null|JsonResponse
