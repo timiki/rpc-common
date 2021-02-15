@@ -329,7 +329,7 @@ class JsonResponse extends JsonHttp implements JsonSerializable
     /**
      * Get result (error) value.
      *
-     * @param string $name
+     * @param string|int $name
      * @param mixed  $default
      *
      * @return null|mixed
