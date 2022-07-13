@@ -146,8 +146,6 @@ class JsonRequest extends JsonHttp implements JsonSerializable
     /**
      * Set response.
      *
-     * @param JsonResponse $response
-     *
      * @return $this
      */
     public function setResponse(JsonResponse $response)

@@ -25,6 +25,9 @@
         }
     },
     "config": {
-        "bin-dir": "bin"
+        "bin-dir": "bin",
+        "allow-plugins": {
+            "ocramius/package-versions": true
+        }
     }
 }
