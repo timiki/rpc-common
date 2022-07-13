@@ -30,7 +30,7 @@ class JsonResponse extends JsonHttp implements JsonSerializable
     /**
      * Error code.
      *
-     * @var int|string
+     * @var null|int|string
      */
     protected $errorCode;
 
@@ -132,7 +132,7 @@ class JsonResponse extends JsonHttp implements JsonSerializable
     /**
      * Get error code.
      *
-     * @return int|string
+     * @return null|int|string
      */
     public function getErrorCode()
     {
@@ -142,7 +142,7 @@ class JsonResponse extends JsonHttp implements JsonSerializable
     /**
      * Set error code.
      *
-     * @param int|string $errorCode
+     * @param null|int|string $errorCode
      *
      * @return $this
      */
