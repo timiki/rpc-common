@@ -4,7 +4,7 @@ namespace Timiki\RpcCommon;
 
 use JsonSerializable;
 
-class JsonResponse extends JsonHttp implements JsonSerializable
+class JsonResponse extends JsonHttp implements \JsonSerializable
 {
     /**
      * JsonRpc.
@@ -30,7 +30,7 @@ class JsonResponse extends JsonHttp implements JsonSerializable
     /**
      * Error code.
      *
-     * @var null|int|string
+     * @var int|string|null
      */
     protected $errorCode;
 
@@ -44,21 +44,21 @@ class JsonResponse extends JsonHttp implements JsonSerializable
     /**
      * Error data.
      *
-     * @var null|mixed
+     * @var mixed|null
      */
     protected $errorData;
 
     /**
      * Result.
      *
-     * @var null|mixed
+     * @var mixed|null
      */
     protected $result;
 
     /**
      * Request.
      *
-     * @var null|JsonRequest
+     * @var JsonRequest|null
      */
     protected $request;
 
@@ -98,7 +98,7 @@ class JsonResponse extends JsonHttp implements JsonSerializable
     /**
      * Get request.
      *
-     * @return null|JsonRequest
+     * @return JsonRequest|null
      */
     public function getRequest()
     {
@@ -108,7 +108,7 @@ class JsonResponse extends JsonHttp implements JsonSerializable
     /**
      * Get id.
      *
-     * @return null|int
+     * @return int|null
      */
     public function getId()
     {
@@ -118,7 +118,7 @@ class JsonResponse extends JsonHttp implements JsonSerializable
     /**
      * Set id.
      *
-     * @param null|int|string $id
+     * @param int|string|null $id
      *
      * @return $this
      */
@@ -132,7 +132,7 @@ class JsonResponse extends JsonHttp implements JsonSerializable
     /**
      * Get error code.
      *
-     * @return null|int|string
+     * @return int|string|null
      */
     public function getErrorCode()
     {
@@ -142,7 +142,7 @@ class JsonResponse extends JsonHttp implements JsonSerializable
     /**
      * Set error code.
      *
-     * @param null|int|string $errorCode
+     * @param int|string|null $errorCode
      *
      * @return $this
      */
@@ -180,7 +180,7 @@ class JsonResponse extends JsonHttp implements JsonSerializable
     /**
      * Get error data.
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     public function getErrorData()
     {
@@ -190,7 +190,7 @@ class JsonResponse extends JsonHttp implements JsonSerializable
     /**
      * Set error data.
      *
-     * @param null|mixed $errorData
+     * @param mixed|null $errorData
      *
      * @return $this
      */
@@ -204,7 +204,7 @@ class JsonResponse extends JsonHttp implements JsonSerializable
     /**
      * Get result.
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     public function getResult()
     {
@@ -214,7 +214,7 @@ class JsonResponse extends JsonHttp implements JsonSerializable
     /**
      * Set result.
      *
-     * @param null|mixed $result
+     * @param mixed|null $result
      *
      * @return $this
      */
@@ -331,7 +331,7 @@ class JsonResponse extends JsonHttp implements JsonSerializable
      * @param int|string $name
      * @param mixed      $default
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     public function get($name, $default = null)
     {

@@ -4,7 +4,7 @@ namespace Timiki\RpcCommon;
 
 use JsonSerializable;
 
-class JsonRequest extends JsonHttp implements JsonSerializable
+class JsonRequest extends JsonHttp implements \JsonSerializable
 {
     /**
      * Jsonrpc version.
@@ -37,7 +37,7 @@ class JsonRequest extends JsonHttp implements JsonSerializable
     /**
      * Response.
      *
-     * @var null|JsonResponse
+     * @var JsonResponse|null
      */
     protected $response;
 
@@ -60,7 +60,7 @@ class JsonRequest extends JsonHttp implements JsonSerializable
     /**
      * Get jsonrpc version.
      *
-     * @return null|string
+     * @return string|null
      */
     public function getJsonrpc()
     {
@@ -124,7 +124,7 @@ class JsonRequest extends JsonHttp implements JsonSerializable
      * Get param by name.
      *
      * @param string     $name
-     * @param null|mixed $default
+     * @param mixed|null $default
      *
      * @return mixed
      */
@@ -136,7 +136,7 @@ class JsonRequest extends JsonHttp implements JsonSerializable
     /**
      * Get response.
      *
-     * @return null|JsonResponse
+     * @return JsonResponse|null
      */
     public function getResponse()
     {
@@ -206,10 +206,6 @@ class JsonRequest extends JsonHttp implements JsonSerializable
     {
         $json = [];
         $json['jsonrpc'] = $this->jsonrpc;
-
-        if ($this->method) {
-            $json['method'] = $this->method;
-        }
 
         $json['method'] = $this->method;
 
