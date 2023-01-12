@@ -2,6 +2,8 @@
 
 namespace Timiki\RpcCommon\Http;
 
+use Traversable;
+
 class Headers implements \IteratorAggregate, \Countable
 {
     protected $headers = [];
@@ -117,7 +119,7 @@ class Headers implements \IteratorAggregate, \Countable
      *
      * @return \ArrayIterator An \ArrayIterator instance
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         return new \ArrayIterator($this->headers);
     }
@@ -127,7 +129,7 @@ class Headers implements \IteratorAggregate, \Countable
      *
      * @return int The number of headers
      */
-    public function count()
+    public function count(): int
     {
         return \count($this->headers);
     }
