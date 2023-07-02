@@ -1,18 +1,13 @@
 <?php
 
-namespace Timiki\RpcCommon\Http;
+declare(strict_types=1);
 
-use Traversable;
+namespace Timiki\RpcCommon\Http;
 
 class Headers implements \IteratorAggregate, \Countable
 {
-    protected $headers = [];
+    protected array $headers = [];
 
-    /**
-     * Constructor.
-     *
-     * @param array $headers An array of HTTP headers
-     */
     public function __construct(array $headers = [])
     {
         foreach ($headers as $key => $values) {
@@ -22,24 +17,16 @@ class Headers implements \IteratorAggregate, \Countable
 
     /**
      * Returns the headers.
-     *
-     * @return array An array of headers
      */
-    public function all()
+    public function all(): array
     {
         return $this->headers;
     }
 
     /**
      * Returns a header value by name.
-     *
-     * @param string $key     The header name
-     * @param mixed  $default The default value
-     * @param bool   $first   Whether to return the first value or all header values
-     *
-     * @return array|string The first header value if $first is true, an array of values otherwise
      */
-    public function get($key, $default = null, $first = true)
+    public function get(string $key, mixed $default = null, bool $first = true): mixed
     {
         $key = \str_replace('_', '-', \mb_strtolower($key));
 
@@ -60,12 +47,8 @@ class Headers implements \IteratorAggregate, \Countable
 
     /**
      * Sets a header by name.
-     *
-     * @param string       $key     The key
-     * @param array|string $values  The value or an array of values
-     * @param bool         $replace Whether to replace the actual value or not (true by default)
      */
-    public function set($key, $values, $replace = true)
+    public function set(string $key, mixed $values, bool $replace = true): void
     {
         $key = \str_replace('_', '-', \mb_strtolower($key));
 
@@ -80,10 +63,8 @@ class Headers implements \IteratorAggregate, \Countable
 
     /**
      * Adds new headers the current HTTP headers set.
-     *
-     * @param array $headers An array of HTTP headers
      */
-    public function add(array $headers)
+    public function add(array $headers): void
     {
         foreach ($headers as $key => $values) {
             $this->set($key, $values);
@@ -92,22 +73,16 @@ class Headers implements \IteratorAggregate, \Countable
 
     /**
      * Returns true if the HTTP header is defined.
-     *
-     * @param string $key The HTTP header
-     *
-     * @return bool true if the parameter exists, false otherwise
      */
-    public function has($key)
+    public function has(string $key): bool
     {
         return \array_key_exists(\str_replace('_', '-', \mb_strtolower($key)), $this->headers);
     }
 
     /**
      * Removes a header.
-     *
-     * @param string $key The HTTP header name
      */
-    public function remove($key)
+    public function remove(string $key): void
     {
         $key = \str_replace('_', '-', \mb_strtolower($key));
 
@@ -116,18 +91,14 @@ class Headers implements \IteratorAggregate, \Countable
 
     /**
      * Returns an iterator for headers.
-     *
-     * @return \ArrayIterator An \ArrayIterator instance
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->headers);
     }
 
     /**
      * Returns the number of headers.
-     *
-     * @return int The number of headers
      */
     public function count(): int
     {

@@ -1,72 +1,51 @@
 <?php
 
-namespace Timiki\RpcCommon;
+declare(strict_types=1);
 
-use JsonSerializable;
+namespace Timiki\RpcCommon;
 
 class JsonResponse extends JsonHttp implements \JsonSerializable
 {
     /**
      * JsonRpc.
-     *
-     * @var string
      */
-    protected $jsonrpc = '2.0';
+    protected string $jsonrpc = '2.0';
 
     /**
      * Id.
-     *
-     * @var mixed
      */
-    protected $id;
+    protected string|int|float|null $id = null;
 
     /**
      * Method name.
-     *
-     * @var string
      */
-    protected $method;
+    protected string|null $method = null;
 
     /**
      * Error code.
-     *
-     * @var int|string|null
      */
-    protected $errorCode;
+    protected int|string|null $errorCode = null;
 
     /**
      * Error message.
-     *
-     * @var string
      */
-    protected $errorMessage;
+    protected string|null $errorMessage = null;
 
     /**
      * Error data.
-     *
-     * @var mixed|null
      */
-    protected $errorData;
+    protected mixed $errorData = null;
 
     /**
      * Result.
-     *
-     * @var mixed|null
      */
-    protected $result;
+    protected mixed $result = null;
 
     /**
      * Request.
-     *
-     * @var JsonRequest|null
      */
-    protected $request;
+    protected JsonRequest|null $request = null;
 
-    /**
-     * Create new JsonResponse.
-     *
-     * @param JsonRequest $jsonRequest
-     */
     public function __construct(JsonRequest $jsonRequest = null)
     {
         if ($jsonRequest) {
@@ -78,15 +57,14 @@ class JsonResponse extends JsonHttp implements \JsonSerializable
 
     /**
      * Set request.
-     *
-     * @return $this
      */
-    public function setRequest(JsonRequest $request)
+    public function setRequest(JsonRequest|null $request): self
     {
-        $this->id = $request->getId();
-        $this->jsonrpc = $request->getJsonrpc();
-        $this->method = $request->getMethod();
         $this->request = $request;
+
+        $this->id = $request?->getId();
+        $this->jsonrpc = $request ? $request->getJsonrpc() : '2.0';
+        $this->method = $request?->getMethod();
 
         if (!$request->getResponse()) {
             $request->setResponse($this);
@@ -97,32 +75,24 @@ class JsonResponse extends JsonHttp implements \JsonSerializable
 
     /**
      * Get request.
-     *
-     * @return JsonRequest|null
      */
-    public function getRequest()
+    public function getRequest(): JsonRequest|null
     {
         return $this->request;
     }
 
     /**
      * Get id.
-     *
-     * @return int|null
      */
-    public function getId()
+    public function getId(): string|int|float|null
     {
         return $this->id;
     }
 
     /**
      * Set id.
-     *
-     * @param int|string|null $id
-     *
-     * @return $this
      */
-    public function setId($id)
+    public function setId(string|int|float|null $id): self
     {
         $this->id = $id;
 
@@ -131,22 +101,16 @@ class JsonResponse extends JsonHttp implements \JsonSerializable
 
     /**
      * Get error code.
-     *
-     * @return int|string|null
      */
-    public function getErrorCode()
+    public function getErrorCode(): int|string|null
     {
         return $this->errorCode;
     }
 
     /**
      * Set error code.
-     *
-     * @param int|string|null $errorCode
-     *
-     * @return $this
      */
-    public function setErrorCode($errorCode)
+    public function setErrorCode(int|string|null $errorCode): self
     {
         $this->errorCode = $errorCode;
 
@@ -155,22 +119,16 @@ class JsonResponse extends JsonHttp implements \JsonSerializable
 
     /**
      * Get error message.
-     *
-     * @return string
      */
-    public function getErrorMessage()
+    public function getErrorMessage(): string|null
     {
         return $this->errorMessage;
     }
 
     /**
      * Set error message.
-     *
-     * @param string $errorMessage
-     *
-     * @return $this
      */
-    public function setErrorMessage($errorMessage)
+    public function setErrorMessage(string|null $errorMessage): self
     {
         $this->errorMessage = $errorMessage;
 
@@ -179,22 +137,16 @@ class JsonResponse extends JsonHttp implements \JsonSerializable
 
     /**
      * Get error data.
-     *
-     * @return mixed|null
      */
-    public function getErrorData()
+    public function getErrorData(): mixed
     {
         return $this->errorData;
     }
 
     /**
      * Set error data.
-     *
-     * @param mixed|null $errorData
-     *
-     * @return $this
      */
-    public function setErrorData($errorData)
+    public function setErrorData(mixed $errorData): self
     {
         $this->errorData = $errorData;
 
@@ -203,22 +155,16 @@ class JsonResponse extends JsonHttp implements \JsonSerializable
 
     /**
      * Get result.
-     *
-     * @return mixed|null
      */
-    public function getResult()
+    public function getResult(): mixed
     {
         return $this->result;
     }
 
     /**
      * Set result.
-     *
-     * @param mixed|null $result
-     *
-     * @return $this
      */
-    public function setResult($result)
+    public function setResult(mixed $result): self
     {
         $this->result = $result;
 
@@ -227,10 +173,8 @@ class JsonResponse extends JsonHttp implements \JsonSerializable
 
     /**
      * Return array response.
-     *
-     * @return array
      */
-    public function getArrayResponse()
+    public function getArrayResponse(): array
     {
         $json = [];
         $json['jsonrpc'] = '2.0';
@@ -254,46 +198,24 @@ class JsonResponse extends JsonHttp implements \JsonSerializable
 
     /**
      * Is response error.
-     *
-     * @return bool
      */
-    public function isError()
+    public function isError(): bool
     {
         return null !== $this->errorCode;
     }
 
     /**
-     * Is response from proxy.
-     *
-     * @return bool
-     */
-    public function isProxy()
-    {
-        return !empty($this->proxy);
-    }
-
-    /**
      * Specify data which should be serialized to JSON.
-     *
-     * @see  http://php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     *               which is a value of any type other than a resource
-     *
-     * @since 5.4.0
      */
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }
 
     /**
      * Convert JsonResponse to array.
-     *
-     * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         $json = [];
         $json['jsonrpc'] = '2.0';
@@ -317,23 +239,16 @@ class JsonResponse extends JsonHttp implements \JsonSerializable
 
     /**
      * Convert JsonResponse to json string.
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return \json_encode($this->toArray());
     }
 
     /**
      * Get result (error) value.
-     *
-     * @param int|string $name
-     * @param mixed      $default
-     *
-     * @return mixed|null
      */
-    public function get($name, $default = null)
+    public function get(string $name, mixed $default = null): mixed
     {
         if ($this->isError()) {
             if (\array_key_exists($name, (array) $this->getErrorData())) {

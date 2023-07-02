@@ -1,19 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Timiki\RpcCommon;
 
 abstract class JsonHttp
 {
-    /**
-     * Headers for request.
-     *
-     * @var Http\Headers
-     */
-    protected $headers;
+    protected Http\Headers $headers;
 
-    /**
-     * Create new JsonHttp.
-     */
     public function __construct()
     {
         $this->headers = new Http\Headers();
@@ -21,10 +15,8 @@ abstract class JsonHttp
 
     /**
      * Get http headers.
-     *
-     * @return Http\Headers
      */
-    public function headers()
+    public function headers(): Http\Headers
     {
         return $this->headers;
     }

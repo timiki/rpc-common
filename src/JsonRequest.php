@@ -1,54 +1,37 @@
 <?php
 
-namespace Timiki\RpcCommon;
+declare(strict_types=1);
 
-use JsonSerializable;
+namespace Timiki\RpcCommon;
 
 class JsonRequest extends JsonHttp implements \JsonSerializable
 {
     /**
      * Jsonrpc version.
-     *
-     * @var string
      */
-    protected $jsonrpc = '2.0';
+    protected string $jsonrpc = '2.0';
 
     /**
      * Id.
-     *
-     * @var mixed
      */
-    protected $id;
+    protected string|int|float|null $id;
 
     /**
      * Method.
-     *
-     * @var string
      */
-    protected $method;
+    protected string $method;
 
     /**
      * Params.
-     *
-     * @var array
      */
-    protected $params = [];
+    protected array $params = [];
 
     /**
      * Response.
-     *
-     * @var JsonResponse|null
      */
-    protected $response;
+    protected JsonResponse|null $response = null;
 
-    /**
-     * Create new JsonRequest.
-     *
-     * @param string $method
-     * @param mixed  $params
-     * @param string $id
-     */
-    public function __construct($method, $params = null, $id = null)
+    public function __construct(string $method, array $params = [], string|int|float $id = null)
     {
         $this->method = $method;
         $this->params = $params;
@@ -59,96 +42,78 @@ class JsonRequest extends JsonHttp implements \JsonSerializable
 
     /**
      * Get jsonrpc version.
-     *
-     * @return string|null
      */
-    public function getJsonrpc()
+    public function getJsonrpc(): string
     {
         return $this->jsonrpc;
     }
 
     /**
      * Get id.
-     *
-     * @return mixed
      */
-    public function getId()
+    public function getId(): string|int|float|null
     {
         return $this->id;
     }
 
     /**
      * Get method.
-     *
-     * @return string
      */
-    public function getMethod()
+    public function getMethod(): string
     {
         return $this->method;
     }
 
     /**
      * Get params.
-     *
-     * @return array
      */
-    public function getParams()
+    public function getParams(): array
     {
         return $this->params;
     }
 
     /**
      * Delete param by name.
-     *
-     * @param string $name
      */
-    public function delete($name)
+    public function delete(string $name): self
     {
         if (isset($this->params[$name])) {
             unset($this->params[$name]);
         }
+
+        return $this;
     }
 
     /**
      * Set param by name.
-     *
-     * @param string $name
-     * @param mixed  $value
      */
-    public function set($name, $value)
+    public function set(string $name, mixed $value): self
     {
         $this->params[$name] = $value;
+
+        return $this;
     }
 
     /**
      * Get param by name.
-     *
-     * @param string     $name
-     * @param mixed|null $default
-     *
-     * @return mixed
      */
-    public function get($name, $default = null)
+    public function get(string $name, mixed $default = null): mixed
     {
-        return isset($this->params[$name]) ? $this->params[$name] : $default;
+        return $this->params[$name] ?? $default;
     }
 
     /**
      * Get response.
-     *
-     * @return JsonResponse|null
      */
-    public function getResponse()
+    public function getResponse(): JsonResponse|null
     {
         return $this->response;
     }
 
     /**
      * Set response.
-     *
-     * @return $this
      */
-    public function setResponse(JsonResponse $response)
+    public function setResponse(JsonResponse $response): self
     {
         $this->response = $response;
 
@@ -157,28 +122,6 @@ class JsonRequest extends JsonHttp implements \JsonSerializable
         }
 
         return $this;
-    }
-
-    /**
-     * Is valid.
-     *
-     * @return bool
-     */
-    public function isValid()
-    {
-        if (empty($this->jsonrpc)) {
-            return false;
-        }
-
-        if (empty($this->method) || !\is_string($this->method)) {
-            return false;
-        }
-
-        if (!empty($this->params) && !\is_array($this->params)) {
-            return false;
-        }
-
-        return true;
     }
 
     /**
@@ -232,11 +175,12 @@ class JsonRequest extends JsonHttp implements \JsonSerializable
 
     /**
      * Get request hash.
-     *
-     * @return string
      */
-    public function getHash()
+    public function getHash(): string
     {
+        $params = $this->params;
+        ksort($params);
+
         return \md5($this->method.\json_encode($this->params));
     }
 }
