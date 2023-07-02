@@ -126,26 +126,16 @@ class JsonRequest extends JsonHttp implements \JsonSerializable
 
     /**
      * Specify data which should be serialized to JSON.
-     *
-     * @see  http://php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     *               which is a value of any type other than a resource
-     *
-     * @since 5.4.0
      */
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return $this->toArray();
     }
 
     /**
      * Convert JsonRequest to json string.
-     *
-     * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         $json = [];
         $json['jsonrpc'] = $this->jsonrpc;
@@ -165,10 +155,8 @@ class JsonRequest extends JsonHttp implements \JsonSerializable
 
     /**
      * Convert JsonRequest to json string.
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return \json_encode($this);
     }

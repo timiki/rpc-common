@@ -207,7 +207,7 @@ class JsonResponse extends JsonHttp implements \JsonSerializable
     /**
      * Specify data which should be serialized to JSON.
      */
-    public function jsonSerialize(): array
+    public function jsonSerialize(): mixed
     {
         return $this->toArray();
     }
