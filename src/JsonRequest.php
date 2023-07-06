@@ -19,7 +19,7 @@ class JsonRequest extends JsonHttp implements \JsonSerializable
     /**
      * Method.
      */
-    protected string|null $method;
+    protected string $method;
 
     /**
      * Params.
@@ -31,7 +31,7 @@ class JsonRequest extends JsonHttp implements \JsonSerializable
      */
     protected JsonResponse|null $response = null;
 
-    public function __construct(string|null $method, array $params = [], string|int|float $id = null)
+    public function __construct(string $method, array $params = [], string|int|float $id = null)
     {
         $this->method = $method;
         $this->params = $params;
@@ -59,7 +59,7 @@ class JsonRequest extends JsonHttp implements \JsonSerializable
     /**
      * Get method.
      */
-    public function getMethod(): string|null
+    public function getMethod(): string
     {
         return $this->method;
     }
