@@ -46,7 +46,7 @@ class JsonResponse extends JsonHttp implements \JsonSerializable
      */
     protected JsonRequest|null $request = null;
 
-    public function __construct(JsonRequest $jsonRequest = null)
+    public function __construct(JsonRequest|null $jsonRequest = null)
     {
         if ($jsonRequest) {
             $this->setRequest($jsonRequest);
