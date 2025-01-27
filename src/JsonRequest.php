@@ -31,7 +31,7 @@ class JsonRequest extends JsonHttp implements \JsonSerializable
      */
     protected JsonResponse|null $response = null;
 
-    public function __construct(string $method, array $params = [], string|int|float $id = null)
+    public function __construct(string $method, array $params = [], string|int|float|null $id = null)
     {
         $this->method = $method;
         $this->params = $params;
